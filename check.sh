@@ -4614,6 +4614,7 @@ function RunScript() {
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 HK_UnlockTest 4
+				JP_UnlockTest 4
 				AI_UnlockTest 4
             fi
            CheckV6 
@@ -4621,6 +4622,8 @@ function RunScript() {
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 HK_UnlockTest 6
+				JP_UnlockTest 6
+				AI_UnlockTest 6
             fi
         #   Goodbye
 
