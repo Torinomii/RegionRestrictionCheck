@@ -4429,6 +4429,7 @@ function CheckV4() {
             #echo "--------------------------------"
             #echo -e " ${Font_SkyBlue}** Your Network Provider: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
             if [ -n  "$local_ipv4"  ]; then
+				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv4=1
             else
                 #echo -e "${Font_SkyBlue}No IPv4 Connectivity Found, Abort IPv4 Testing...${Font_Suffix}"
@@ -4446,6 +4447,7 @@ function CheckV4() {
             #echo "--------------------------------"
             #echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
             if [ -n  "$local_ipv4"  ]; then
+				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv4=1
             else
                 #echo -e "${Font_SkyBlue}当前网络不支持IPv4,跳过...${Font_Suffix}"
@@ -4472,6 +4474,7 @@ function CheckV6() {
                 #cho -e " ${Font_SkyBlue}** Checking Results Under IPv6${Font_Suffix} "
                 #echo "--------------------------------"
                 #echo -e " ${Font_SkyBlue}** Your Network Provider:  AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
+				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv6=1
             else
                 #echo -e "${Font_SkyBlue}No IPv6 Connectivity Found, Abort IPv6 Testing...${Font_Suffix}"
@@ -4494,6 +4497,7 @@ function CheckV6() {
                 #echo -e " ${Font_SkyBlue}** 正在测试IPv6解锁情况${Font_Suffix} "
                 #echo "--------------------------------"
                 #echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
+				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv6=1
             else
                 #echo -e "${Font_SkyBlue}当前主机不支持IPv6,跳过...${Font_Suffix}"
@@ -4582,7 +4586,7 @@ function Start() {
 Start
 
 function RunScript() {
-
+	
     if [[ -n "${num}" ]]; then
         if [[ "$num" -eq 1 ]]; then
             clear
