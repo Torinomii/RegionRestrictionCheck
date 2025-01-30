@@ -46,6 +46,13 @@ bash <(curl -L -s https://github.com/Torinomii/RegionRestrictionCheck/raw/main/c
 ````bash
 bash <(curl -L -s https://github.com/Torinomii/RegionRestrictionCheck/raw/main/check.sh) -E
 ````
+
+##### 选择脚本运行区域：
+````bash
+bash <(curl -L -s https://github.com/Torinomii/RegionRestrictionCheck/raw/main/check.sh) -N
+````
+1,台湾;2,香港;3,日本;4,北美;5,南美;6,欧洲;7,大洋洲;8,韩国平台;9,东南亚平台;10,AI;99,体育直播平台
+
 <!-- 
 **或者直接运行以下Docker命令** (兼容ARM架构)
 ````docker
