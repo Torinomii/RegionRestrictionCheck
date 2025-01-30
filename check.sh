@@ -4547,7 +4547,6 @@ function ScriptTitle() {
 
 function Start() {
     if [[ -n "${num}" ]]; then
-        #RunScript
         return
     fi
     
