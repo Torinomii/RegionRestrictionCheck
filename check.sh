@@ -10,7 +10,7 @@ Font_SkyBlue="\033[36m"
 Font_White="\033[37m"
 Font_Suffix="\033[0m"
 
-while getopts ":I:M:EX:P:F:S:R:C:D:" optname; do
+while getopts ":I:M:EX:P:F:S:R:C:D:N:" optname; do
     case "$optname" in
         "I")
             iface="$OPTARG"
@@ -52,6 +52,9 @@ while getopts ":I:M:EX:P:F:S:R:C:D:" optname; do
             Dns="$OPTARG"
             dns="--dns-servers $Dns"
         ;;
+		"N")  # 新增 num 参数处理
+            num="$OPTARG"
+        ;;
         ":")
             echo "Unknown error while processing options"
             exit 1
@@ -83,6 +86,8 @@ fi
 if ! mktemp -u --suffix=RRC &>/dev/null; then
     is_busybox=1
 fi
+
+
 curlArgs="$useNIC $usePROXY $xForward $resolve $dns --max-time 10"
 UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64"
 UA_Dalvik="Dalvik/2.1.0 (Linux; U; Android 9; ALP-AL00 Build/HUAWEIALP-AL00)"
@@ -4190,7 +4195,7 @@ function JP_UnlockTest() {
 }
 
 function Global_UnlockTest() {
-    echo ""
+    #echo ""
     echo "============[ Multination ]============"
     if [[ "$1" == 4 ]] || [[ "$Stype" == "force6" ]];then
         local result=$(
@@ -4418,36 +4423,36 @@ function CheckV4() {
     if [[ "$language" == "e" ]]; then
         if [[ "$NetworkType" == "6" ]]; then
             isv4=0
-            echo -e "${Font_SkyBlue}User Choose to Test Only IPv6 Results, Skipping IPv4 Testing...${Font_Suffix}"
+            #echo -e "${Font_SkyBlue}User Choose to Test Only IPv6 Results, Skipping IPv4 Testing...${Font_Suffix}"
         else
-            echo -e " ${Font_SkyBlue}** Checking Results Under IPv4${Font_Suffix} "
-            echo "--------------------------------"
-            echo -e " ${Font_SkyBlue}** Your Network Provider: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
+            #echo -e " ${Font_SkyBlue}** Checking Results Under IPv4${Font_Suffix} "
+            #echo "--------------------------------"
+            #echo -e " ${Font_SkyBlue}** Your Network Provider: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
             if [ -n  "$local_ipv4"  ]; then
                 isv4=1
             else
-                echo -e "${Font_SkyBlue}No IPv4 Connectivity Found, Abort IPv4 Testing...${Font_Suffix}"
+                #echo -e "${Font_SkyBlue}No IPv4 Connectivity Found, Abort IPv4 Testing...${Font_Suffix}"
                 isv4=0
             fi
 
-            echo ""
+            #echo ""
         fi
     else
         if [[ "$NetworkType" == "6" ]]; then
             isv4=0
-            echo -e "${Font_SkyBlue}用户选择只检测IPv6结果，跳过IPv4检测...${Font_Suffix}"
+            #echo -e "${Font_SkyBlue}用户选择只检测IPv6结果，跳过IPv4检测...${Font_Suffix}"
         else
-            echo -e " ${Font_SkyBlue}** 正在测试IPv4解锁情况${Font_Suffix} "
-            echo "--------------------------------"
-            echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
+            #echo -e " ${Font_SkyBlue}** 正在测试IPv4解锁情况${Font_Suffix} "
+            #echo "--------------------------------"
+            #echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
             if [ -n  "$local_ipv4"  ]; then
                 isv4=1
             else
-                echo -e "${Font_SkyBlue}当前网络不支持IPv4,跳过...${Font_Suffix}"
+                #echo -e "${Font_SkyBlue}当前网络不支持IPv4,跳过...${Font_Suffix}"
                 isv4=0
             fi
 
-            echo ""
+            #echo ""
         fi
     fi
 }
@@ -4457,42 +4462,44 @@ function CheckV6() {
         if [[ "$NetworkType" == "4" ]]; then
             isv6=0
             if [ -z "$usePROXY" ]; then
-                echo -e "${Font_SkyBlue}User Choose to Test Only IPv4 Results, Skipping IPv6 Testing...${Font_Suffix}"
+				echo ""
+                #echo -e "${Font_SkyBlue}User Choose to Test Only IPv4 Results, Skipping IPv6 Testing...${Font_Suffix}"
             fi
         else
             if [ -n  "$local_ipv6"  ]; then
-                echo ""
-                echo ""
-                echo -e " ${Font_SkyBlue}** Checking Results Under IPv6${Font_Suffix} "
-                echo "--------------------------------"
-                echo -e " ${Font_SkyBlue}** Your Network Provider:  AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
+                #echo ""
+                #echo ""
+                #cho -e " ${Font_SkyBlue}** Checking Results Under IPv6${Font_Suffix} "
+                #echo "--------------------------------"
+                #echo -e " ${Font_SkyBlue}** Your Network Provider:  AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
                 isv6=1
             else
-                echo -e "${Font_SkyBlue}No IPv6 Connectivity Found, Abort IPv6 Testing...${Font_Suffix}"
+                #echo -e "${Font_SkyBlue}No IPv6 Connectivity Found, Abort IPv6 Testing...${Font_Suffix}"
                 isv6=0
             fi
-            echo -e ""
+            #echo -e ""
         fi
 
     else
         if [[ "$NetworkType" == "4" ]]; then
             isv6=0
             if [ -z "$usePROXY" ]; then
-                echo -e "${Font_SkyBlue}用户选择只检测IPv4结果，跳过IPv6检测...${Font_Suffix}"
+				echo ""
+                #echo -e "${Font_SkyBlue}用户选择只检测IPv4结果，跳过IPv6检测...${Font_Suffix}"
             fi
         else
             if [ -n  "$local_ipv6"  ]; then
-                echo ""
-                echo ""
-                echo -e " ${Font_SkyBlue}** 正在测试IPv6解锁情况${Font_Suffix} "
-                echo "--------------------------------"
-                echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
+                #echo ""
+                #echo ""
+                #echo -e " ${Font_SkyBlue}** 正在测试IPv6解锁情况${Font_Suffix} "
+                #echo "--------------------------------"
+                #echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
                 isv6=1
             else
-                echo -e "${Font_SkyBlue}当前主机不支持IPv6,跳过...${Font_Suffix}"
+                #echo -e "${Font_SkyBlue}当前主机不支持IPv6,跳过...${Font_Suffix}"
                 isv6=0
             fi
-            echo -e ""
+            #echo -e ""
         fi
     fi
 }
@@ -4532,9 +4539,14 @@ function ScriptTitle() {
         echo ""
     fi
 }
-ScriptTitle
+#ScriptTitle
 
 function Start() {
+	if [[ -n "${num}" ]]; then
+		#RunScript
+		return
+	fi
+	
     if [[ "$language" == "e" ]]; then
         echo -e "${Font_Blue}Please Select Test Region or Press ENTER to Test All Regions${Font_Suffix}"
         echo -e "${Font_SkyBlue}Input Number  [1]: [ Multination + Taiwan ]${Font_Suffix}"
@@ -4574,178 +4586,205 @@ function RunScript() {
     if [[ -n "${num}" ]]; then
         if [[ "$num" -eq 1 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 TW_UnlockTest 4
+				AI_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 TW_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 2 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 HK_UnlockTest 4
+				AI_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 HK_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 3 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 JP_UnlockTest 4
+				AI_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 JP_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 4 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 NA_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 NA_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 5 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 SA_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 SA_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 6 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 EU_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 EU_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 7 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 OA_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 OA_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 8 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 KR_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 KR_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 9 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 SEA_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 SEA_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 10 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 AI_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 AI_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
 
         elif [[ "$num" -eq 99 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Sport_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Sport_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         elif [[ "$num" -eq 0 ]]; then
             clear
-            ScriptTitle
-            CheckV4
+         #   ScriptTitle
+           CheckV4 
+  
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
             fi
-            CheckV6
+           CheckV6 
+  
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
             fi
-            Goodbye
+        #   Goodbye
 
         else
             echo -e "${Font_Red}请重新执行脚本并输入正确号码${Font_Suffix}"
@@ -4754,8 +4793,9 @@ function RunScript() {
         fi
     else
         clear
-        ScriptTitle
-        CheckV4
+     #   ScriptTitle
+       CheckV4 
+  
         if [[ "$isv4" -eq 1 ]]; then
             Global_UnlockTest 4
             TW_UnlockTest 4
@@ -4767,7 +4807,8 @@ function RunScript() {
             OA_UnlockTest 4
             KR_UnlockTest 4
         fi
-        CheckV6
+       CheckV6 
+  
         if [[ "$isv6" -eq 1 ]]; then
             Global_UnlockTest 6
             TW_UnlockTest 6
@@ -4779,7 +4820,7 @@ function RunScript() {
             OA_UnlockTest 6
             KR_UnlockTest 6
         fi
-        Goodbye
+    #   Goodbye
     fi
 }
 wait
