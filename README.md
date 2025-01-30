@@ -54,7 +54,7 @@ bash <(curl -L -s https://github.com/Torinomii/RegionRestrictionCheck/raw/main/c
 1,台湾;2,香港;3,日本;4,北美;5,南美;6,欧洲;7,大洋洲;8,韩国平台;9,东南亚平台;10,AI;99,体育直播平台
 
 ````bash
-bash <(curl -L -s https://github.com/Torinomii/RegionRestrictionCheck/raw/main/check.sh) -N 2 -M 4 -D 91.103.120.36 | sed -e 's/\x1B\[[0-9;]*[a-zA-Z]//g' -e 's/\r//g' > /tmp/midia_check.json
+bash <(curl -L -s https://github.com/Torinomii/RegionRestrictionCheck/raw/main/check.sh) -N 2 -M 4 | sed -e 's/\x1B\[[0-9;]*[a-zA-Z]//g' -e 's/\r//g' > /tmp/midia_check.json
 ````
 
 <!-- 
