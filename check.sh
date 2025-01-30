@@ -52,7 +52,7 @@ while getopts ":I:M:EX:P:F:S:R:C:D:N:" optname; do
             Dns="$OPTARG"
             dns="--dns-servers $Dns"
         ;;
-		"N")  # 新增 num 参数处理
+        "N")  # 新增 num 参数处理
             num="$OPTARG"
         ;;
         ":")
@@ -431,7 +431,7 @@ function MediaUnlockTest_Netflix() {
     local region=$(echo $regiontmp | cut -d '/' -f4 | cut -d '-' -f1 | tr [:lower:] [:upper:])
     if [[ ! -n "$region" ]]; then
         region="US"
-	fi
+    fi
     if [[ "$result1" == "404" ]] && [[ "$result2" == "404" ]]; then
         echo -n -e "\r Netflix:\t\t\t\t${Font_Yellow}Originals Only (Region: ${region})${Font_Suffix}\n"
         return
@@ -2643,8 +2643,8 @@ function MediaUnlockTest_VideoMarket() {
 }
 
 function MediaUnlockTest_J:COM_ON_DEMAND() {
-	local result=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://id.zaq.ne.jp" 2>&1)
-	if [ "$result" = "000" ]; then
+    local result=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -fsL --write-out %{http_code} --output /dev/null --max-time 10 "https://id.zaq.ne.jp" 2>&1)
+    if [ "$result" = "000" ]; then
         echo -n -e "\r J:com On Demand:\t\t\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n"
     elif [ "$result" = "404" ]; then
         echo -n -e "\r J:com On Demand:\t\t\t${Font_Green}Yes${Font_Suffix}\n"
@@ -2656,8 +2656,8 @@ function MediaUnlockTest_J:COM_ON_DEMAND() {
 }
 
 function MediaUnlockTest_music.jp() {
-	local result=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -sL --max-time 10 "https://overseaauth.music-book.jp/globalIpcheck.js" 2>&1)
-	if [ -n "$result" ]; then
+    local result=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -sL --max-time 10 "https://overseaauth.music-book.jp/globalIpcheck.js" 2>&1)
+    if [ -n "$result" ]; then
         echo -n -e "\r music.jp:\t\t\t\t${Font_Green}Yes${Font_Suffix}\n"
     else
         echo -n -e "\r music.jp:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
@@ -3083,9 +3083,9 @@ function MediaUnlockTest_SkyShowTime(){
 
     local result1=$(echo "$tmpresult" | grep 'location' | head -1 | awk '{print $2}' )
     if [[ "$result1" == *"where-can-i-stream"* ]]; then
-    	echo -n -e "\r SkyShowTime:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
+        echo -n -e "\r SkyShowTime:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
     else
-    	local region1=$(echo -n "$result1" | sed 's#https://www.skyshowtime.com/\([0-9a-zA-Z][0-9a-zA-Z]\)?\r#\1#i' | tr [:lower:] [:upper:] )
+        local region1=$(echo -n "$result1" | sed 's#https://www.skyshowtime.com/\([0-9a-zA-Z][0-9a-zA-Z]\)?\r#\1#i' | tr [:lower:] [:upper:] )
         echo -n -e "\r SkyShowTime:\t\t\t\t${Font_Green}Yes (Region: ${region1})${Font_Suffix}\n"
     fi
 }
@@ -3101,7 +3101,7 @@ function MediaUnlockTest_MathsSpot() {
     fi
     local blocked=$(echo "$tmpresult1" | grep 'Request blocked')
     if [ -n "$blocked" ]; then
-    	echo -n -e "\r Maths Spot:\t\t\t\t${Font_Red}No  (Proxy/VPN Detected)${Font_Suffix}\n"
+        echo -n -e "\r Maths Spot:\t\t\t\t${Font_Red}No  (Proxy/VPN Detected)${Font_Suffix}\n"
         return
     fi
     local playtoken=$(echo "$tmpresult1" | python -m json.tool 2>/dev/null | grep '"playToken":' | awk '{print $2}' | cut -f2 -d'"')
@@ -3114,11 +3114,11 @@ function MediaUnlockTest_MathsSpot() {
     fi
     local result=$(echo "$tmpresult2" | python -m json.tool 2>/dev/null | grep '"status":' | awk '{print $2}' | cut -f2 -d'"')
     if [[ "$result" == "FailureServiceNotInRegion" ]]; then
-    	echo -n -e "\r Maths Spot:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
+        echo -n -e "\r Maths Spot:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
     elif [[ "$result" == "Success" ]]; then
         echo -n -e "\r Maths Spot:\t\t\t\t${Font_Green}Yes (Region: ${region})${Font_Suffix}\n"
     else
-    	echo -n -e "\r Maths Spot:\t\t\t\t${Font_Red}Failed${Font_Suffix}\n"
+        echo -n -e "\r Maths Spot:\t\t\t\t${Font_Red}Failed${Font_Suffix}\n"
     fi
 }
 
@@ -3724,9 +3724,9 @@ function MediaUnlockTest_ChatGPT() {
             echo -n -e "\r ChatGPT:\t\t\t\t${Font_Red}No (Disallowed ISP[2])${Font_Suffix}\n"
             return
         fi
-    	echo -n -e "\r ChatGPT:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
+        echo -n -e "\r ChatGPT:\t\t\t\t${Font_Red}No${Font_Suffix}\n"
     else
-    	local region1=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -SsL --max-time 10 "https://chatgpt.com/cdn-cgi/trace" 2>&1 | grep "loc=" | awk -F= '{print $2}')
+        local region1=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -SsL --max-time 10 "https://chatgpt.com/cdn-cgi/trace" 2>&1 | grep "loc=" | awk -F= '{print $2}')
         if [[ "$cf_details" == *"(1)"* ]]; then
             echo -n -e "\r ChatGPT:\t\t\t\t${Font_Yellow}Web Only (Disallowed ISP[1])${Font_Suffix}\n"
             return
@@ -3747,9 +3747,9 @@ function MediaUnlockTest_Sora() {
     fi
     local result1=$(echo "$tmpresult" | grep 'location'  )
     if [ ! -n "$result1" ]; then
-    	echo -n -e "\r Sora:\t\t\t\t\t${Font_Red}No${Font_Suffix}\n"
+        echo -n -e "\r Sora:\t\t\t\t\t${Font_Red}No${Font_Suffix}\n"
     else
-    	local region1=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -SsL --max-time 10 "https://sora.com/cdn-cgi/trace" 2>&1 | grep "loc=" | awk -F= '{print $2}')
+        local region1=$(curl $curlArgs -${1} --user-agent "${UA_Browser}" -SsL --max-time 10 "https://sora.com/cdn-cgi/trace" 2>&1 | grep "loc=" | awk -F= '{print $2}')
         echo -n -e "\r Sora:\t\t\t\t\t${Font_Green}Yes (Region: ${region1})${Font_Suffix}\n"
     fi
 }
@@ -4078,27 +4078,27 @@ function EU_UnlockTest() {
 function HK_UnlockTest() {
     echo "=============[ Hong Kong ]============="
        if [[ "$1" == 4 ]] || [[ "$Stype" == "force6" ]];then
-	local result=$(
-	    MediaUnlockTest_NowE ${1} &
-	    MediaUnlockTest_ViuTV ${1} &
-	    MediaUnlockTest_MyTVSuper ${1} &
-	    # MediaUnlockTest_HBOGO_ASIA ${1} &
+    local result=$(
+        MediaUnlockTest_NowE ${1} &
+        MediaUnlockTest_ViuTV ${1} &
+        MediaUnlockTest_MyTVSuper ${1} &
+        # MediaUnlockTest_HBOGO_ASIA ${1} &
         MediaUnlockTest_MaxCom ${1} &
         MediaUnlockTest_HoyTV ${1} &
         MediaUnlockTest_BahamutAnime ${1} &
         MediaUnlockTest_NBATV ${1} &
-	    # MediaUnlockTest_BilibiliHKMCTW ${1} &
-	)
+        # MediaUnlockTest_BilibiliHKMCTW ${1} &
+    )
     else
-	local result=$(
-	    # MediaUnlockTest_NowE ${1} &
-	    # MediaUnlockTest_ViuTV ${1} &
-	    # MediaUnlockTest_MyTVSuper ${1} &
-	    # MediaUnlockTest_HBOGO_ASIA ${1} &
+    local result=$(
+        # MediaUnlockTest_NowE ${1} &
+        # MediaUnlockTest_ViuTV ${1} &
+        # MediaUnlockTest_MyTVSuper ${1} &
+        # MediaUnlockTest_HBOGO_ASIA ${1} &
         MediaUnlockTest_HoyTV ${1} &
         MediaUnlockTest_MaxCom ${1} &
-	    # MediaUnlockTest_BilibiliHKMCTW ${1} &
-	)
+        # MediaUnlockTest_BilibiliHKMCTW ${1} &
+    )
     fi
     wait
     local array=("Now E:" "Viu.TV:" "MyTVSuper:" "Max.com:" "HOY TV" "BiliBili Hongkong/Macau/Taiwan:" "Bahamut Anime:" "NBA TV:")
@@ -4429,7 +4429,7 @@ function CheckV4() {
             #echo "--------------------------------"
             #echo -e " ${Font_SkyBlue}** Your Network Provider: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
             if [ -n  "$local_ipv4"  ]; then
-				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
+                echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv4=1
             else
                 #echo -e "${Font_SkyBlue}No IPv4 Connectivity Found, Abort IPv4 Testing...${Font_Suffix}"
@@ -4447,7 +4447,7 @@ function CheckV4() {
             #echo "--------------------------------"
             #echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as4} ${local_isp4} (${local_ipv4_asterisk})${Font_Suffix} "
             if [ -n  "$local_ipv4"  ]; then
-				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
+                echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv4=1
             else
                 #echo -e "${Font_SkyBlue}当前网络不支持IPv4,跳过...${Font_Suffix}"
@@ -4464,7 +4464,7 @@ function CheckV6() {
         if [[ "$NetworkType" == "4" ]]; then
             isv6=0
             if [ -z "$usePROXY" ]; then
-				echo ""
+                echo ""
                 #echo -e "${Font_SkyBlue}User Choose to Test Only IPv4 Results, Skipping IPv6 Testing...${Font_Suffix}"
             fi
         else
@@ -4474,7 +4474,7 @@ function CheckV6() {
                 #cho -e " ${Font_SkyBlue}** Checking Results Under IPv6${Font_Suffix} "
                 #echo "--------------------------------"
                 #echo -e " ${Font_SkyBlue}** Your Network Provider:  AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
-				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
+                echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv6=1
             else
                 #echo -e "${Font_SkyBlue}No IPv6 Connectivity Found, Abort IPv6 Testing...${Font_Suffix}"
@@ -4487,7 +4487,7 @@ function CheckV6() {
         if [[ "$NetworkType" == "4" ]]; then
             isv6=0
             if [ -z "$usePROXY" ]; then
-				echo ""
+                echo ""
                 #echo -e "${Font_SkyBlue}用户选择只检测IPv4结果，跳过IPv6检测...${Font_Suffix}"
             fi
         else
@@ -4497,7 +4497,7 @@ function CheckV6() {
                 #echo -e " ${Font_SkyBlue}** 正在测试IPv6解锁情况${Font_Suffix} "
                 #echo "--------------------------------"
                 #echo -e " ${Font_SkyBlue}** 您的网络为: AS${local_as6} ${local_isp6} (${local_ipv6_asterisk})${Font_Suffix} "
-				echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
+                echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
                 isv6=1
             else
                 #echo -e "${Font_SkyBlue}当前主机不支持IPv6,跳过...${Font_Suffix}"
@@ -4546,11 +4546,11 @@ function ScriptTitle() {
 #ScriptTitle
 
 function Start() {
-	if [[ -n "${num}" ]]; then
-		#RunScript
-		return
-	fi
-	
+    if [[ -n "${num}" ]]; then
+        #RunScript
+        return
+    fi
+    
     if [[ "$language" == "e" ]]; then
         echo -e "${Font_Blue}Please Select Test Region or Press ENTER to Test All Regions${Font_Suffix}"
         echo -e "${Font_SkyBlue}Input Number  [1]: [ Multination + Taiwan ]${Font_Suffix}"
@@ -4586,7 +4586,7 @@ function Start() {
 Start
 
 function RunScript() {
-	
+    
     if [[ -n "${num}" ]]; then
         if [[ "$num" -eq 1 ]]; then
             clear
@@ -4596,7 +4596,7 @@ function RunScript() {
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 TW_UnlockTest 4
-				AI_UnlockTest 4
+                AI_UnlockTest 4
             fi
            CheckV6 
   
@@ -4614,16 +4614,16 @@ function RunScript() {
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 HK_UnlockTest 4
-				JP_UnlockTest 4
-				AI_UnlockTest 4
+                JP_UnlockTest 4
+                AI_UnlockTest 4
             fi
            CheckV6 
   
             if [[ "$isv6" -eq 1 ]]; then
                 Global_UnlockTest 6
                 HK_UnlockTest 6
-				JP_UnlockTest 6
-				AI_UnlockTest 6
+                JP_UnlockTest 6
+                AI_UnlockTest 6
             fi
         #   Goodbye
 
@@ -4635,7 +4635,7 @@ function RunScript() {
             if [[ "$isv4" -eq 1 ]]; then
                 Global_UnlockTest 4
                 JP_UnlockTest 4
-				AI_UnlockTest 4
+                AI_UnlockTest 4
             fi
            CheckV6 
   
